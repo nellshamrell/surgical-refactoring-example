@@ -1,0 +1,5 @@
+puts 'old syntax'
+:some_hash => 'something'
+
+puts 'new syntax'
+some_hash: 'something'
