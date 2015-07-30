@@ -46,7 +46,7 @@ describe RegexToRefactor do
   end
 
   describe 'what the regex matches' do
-    let(:test_string) { ':ab' }
+    let(:test_string) { ':ab ' }
 
     it 'matches a string' do
       expect(regex_to_refactor.first_regex_match(test_string)).to_not be_nil

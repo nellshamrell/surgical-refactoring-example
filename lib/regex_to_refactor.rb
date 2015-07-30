@@ -3,7 +3,7 @@ class RegexToRefactor
   # Regex is a sub program within a program, so we separate it out to concentrate just on it first
   # Same as refactoring "normal code" - we do it piece by piece
   def first_regex_match(string)
-    /:([[:alpha:]]+)/.match(string)
+    /:([[:alpha:]]+[[:space:]])/.match(string)
   end
 
   def scary_regex_command(directory)
