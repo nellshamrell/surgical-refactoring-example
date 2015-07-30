@@ -1,32 +1,33 @@
 require_relative '../lib/regex_to_refactor'
 
 describe RegexToRefactor do
+  let(:regex_to_refactor) { RegexToRefactor.new }
   describe 'calling the method' do
   # Starting from the outer edges of the method and working our way in
     it 'can be called' do
       # Step 1: Figure out how to call the beast
       # 1.1 Write test first - should pass
       # 1.2 Alter code so test should fail, make sure it fails
-      expect(RegexToRefactor).to respond_to(:scary_regex_command)
+      expect(regex_to_refactor).to respond_to(:scary_regex_command)
     end
 
     it 'receives an argument' do
       # Step 2: Let's figure out the argument it is expecting to receive
       # 2.2 Remember, if test passes the first time, then alter code to make sure it fails
-      expect{RegexToRefactor.scary_regex_command()}.to raise_error(ArgumentError)
-      expect{RegexToRefactor.scary_regex_command('directory', 'something_else')}.to raise_error(ArgumentError)
+      expect{regex_to_refactor.scary_regex_command()}.to raise_error(ArgumentError)
+      expect{regex_to_refactor.scary_regex_command('directory', 'something_else')}.to raise_error(ArgumentError)
     end
   end
 
   describe 'making the system call' do
     it 'calls Ruby#system method' do
-      expect(RegexToRefactor).to receive(:system).with(anything())
-      RegexToRefactor.scary_regex_command('directory')
+      expect_any_instance_of(RegexToRefactor).to receive(:system).with(anything())
+      regex_to_refactor.scary_regex_command('directory')
     end
 
     it 'calls the sed command' do
-      expect(RegexToRefactor).to receive(:system).with(/sed.*/)
-      RegexToRefactor.scary_regex_command('directory')
+      expect_any_instance_of(RegexToRefactor).to receive(:system).with(/sed.*/)
+      regex_to_refactor.scary_regex_command('directory')
     end
   end
 
@@ -36,7 +37,7 @@ describe RegexToRefactor do
     end
 
     it 'returns successfully' do
-      expect(RegexToRefactor.scary_regex_command('directory')).to eq(true)
+      expect(regex_to_refactor.scary_regex_command('directory')).to eq(true)
     end
 
     after do
@@ -62,7 +63,7 @@ describe RegexToRefactor do
 
       expect(File.read(file)).to eq(File.read(file2))
 
-      RegexToRefactor.scary_regex_command('directory')
+      regex_to_refactor.scary_regex_command('directory')
 
       expect(File.read(file)).to_not eq(File.read(file2))
     end
