@@ -35,10 +35,27 @@ describe RegexToRefactor do
     # Looking that up, we find that
     # It returns true if the command gives a zero exit status (means the command was successful)
     # And it returns false if the command returns a different exit status and was therefore not successful
+    # This spec will fail the first time, the method will return false
+    # This allows us to examine the error message returned, it says 'sed: directory/**/*.rb: No such file or directory'
+    # Looks like we need to pass it a valid directory
+    before do
+      # So let's create a directory
+      # Yes, this will slow our tests down a bit, but let's
+      # figure out what this method does and get our test harness working before trying to optimize
+      # I promise we will come back to it!
+
+      # First, let's make our directory
+      require 'fileutils'
+      unless File.directory?('directory')
+        FileUtils.mkdir_p('directory')
+      end
+
+      # This still fails, looks like the code is looking for multiple directories with files in them.
+    end
+
     it 'returns successfully' do
       expect(RegexToRefactor.scary_regex_command('directory')).to eq(true)
     end
 
-    # This spec will fail the first time
   end
 end
