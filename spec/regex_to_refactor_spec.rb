@@ -31,41 +31,28 @@ describe RegexToRefactor do
   end
 
   describe 'what the method does' do
-     # What does system return when the system call is successful?
-    # Looking that up, we find that
-    # It returns true if the command gives a zero exit status (means the command was successful)
-    # And it returns false if the command returns a different exit status and was therefore not successful
-    # This spec will fail the first time, the method will return false
-    # This allows us to examine the error message returned, it says 'sed: directory/**/*.rb: No such file or directory'
-    # Looks like we need to pass it a valid directory
     before do
-      # So let's create a directory
-      # Yes, this will slow our tests down a bit, but let's
-      # figure out what this method does and get our test harness working before trying to optimize
-      # I promise we will come back to it!
-
-      # First, let's make our directory
-      # The spec still fails, looks like the code is looking for multiple directories with files in them.
-      # Let's create another directory within the first one
-      # Still no such file or directory.  Looks like it is looking for .rb files within the directories.  Let's create a few of those
-      require 'fileutils'
-
-      FileUtils.mkdir_p('directory/nested_dir')
-
-      expect(File.directory?('directory/nested_dir')).to eq(true)
-
-      file = File.new('something.rb', 'w')
-      file.write('look there is something in the file')
-      file.close
-      expect(File).to exist('./something.rb')
-
-      FileUtils.mv('something.rb','directory/nested_dir', verbose: true)
-      expect(File).to exist('./directory/nested_dir/something.rb')
+      create_required_directories_and_files
     end
 
     it 'returns successfully' do
       expect(RegexToRefactor.scary_regex_command('directory')).to eq(true)
     end
 
+    after do
+      FileUtils.rm_rf('directory')
+    end
+  end
+
+  require 'fileutils'
+
+  def create_required_directories_and_files
+    FileUtils.mkdir_p('directory/nested_dir')
+
+    file = File.new('something.rb', 'w')
+    file.write('look there is something in the file')
+    file.close
+
+    FileUtils.mv('something.rb','directory/nested_dir', verbose: true)
   end
 end
