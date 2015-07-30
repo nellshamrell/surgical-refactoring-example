@@ -46,8 +46,15 @@ describe RegexToRefactor do
   end
 
   describe 'what the regex matches' do
+    let(:test_string) { ':ab' }
+
     it 'matches a string' do
-      expect(regex_to_refactor.first_regex_match(':ab')).to_not be_nil
+      expect(regex_to_refactor.first_regex_match(test_string)).to_not be_nil
+    end
+
+    it 'captures a group' do
+      expect(regex_to_refactor.first_regex_match(test_string)[1]).to_not be_nil
+      expect(regex_to_refactor.first_regex_match(test_string)[1]).to eq('ab')
     end
   end
 
