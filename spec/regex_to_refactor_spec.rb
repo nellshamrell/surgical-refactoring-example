@@ -45,6 +45,12 @@ describe RegexToRefactor do
     end
   end
 
+  describe 'what the regex matches' do
+    it 'matches a string' do
+      expect(regex_to_refactor.first_regex_match(':')).to_not be_nil
+    end
+  end
+
   describe 'how the method changes files' do
     # At this point, we know it does SOMETHING to .rb files at directory/sub-directory. but we're still not sure exactly what
     # We know that "sed" is a streaming editor - it makes changes to a file or files
@@ -67,6 +73,8 @@ describe RegexToRefactor do
 
       expect(File.read(file)).to_not eq(File.read(file2))
     end
+
+    # Next, let's figure out what these regex matches are expected to be, which will tell us what the method expects to be in the file
 
     after do
       clean_up_files('directory')
