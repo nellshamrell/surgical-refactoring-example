@@ -11,7 +11,7 @@ class RegexToRefactor
     # We notice that it references a capture group
     # This must be the group that is captures in the first
     # regex
-    system "sed -E -i '' 's/:#{match_regex}/\\1:/g' #{directory_path(directory)}"
+    system "sed -E -i '' 's/#{match_regex}/\\1:/g' #{directory_path(directory)}"
   end
 
   private
