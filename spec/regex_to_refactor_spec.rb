@@ -85,6 +85,12 @@ describe RegexToRefactor do
       expect(new_contents).to include('ab: ab:')
     end
 
+    it 'does not save a backup copy of the file' do
+      expect(Dir['directory/nested_dir/*'].count).to eq(1)
+      regex_to_refactor.scary_regex_command('directory')
+      expect(Dir['directory/nested_dir/*'].count).to eq(1)
+    end
+
 
     after do
       clean_up_files('directory')
