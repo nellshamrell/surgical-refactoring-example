@@ -70,15 +70,19 @@ describe RegexToRefactor do
       expect(File.exist?('directory/nested_dir/something.rb')).to eq(true)
     end
 
+    # Now that we've figured out what that first regex pattern does, let's put that content in our file and verify that the content changes
     it 'changes the file' do
-      file = File.open('directory/nested_dir/something.rb')
-      file2 = file.clone
+      file = File.open('directory/nested_dir/something.rb', 'w')
+      file.write(':ab =>')
+      file.close
 
-      expect(File.read(file)).to eq(File.read(file2))
+      orig_contents = File.read('directory/nested_dir/something.rb')
 
       regex_to_refactor.scary_regex_command('directory')
 
-      expect(File.read(file)).to_not eq(File.read(file2))
+      new_contents = File.read('directory/nested_dir/something.rb')
+
+      expect(orig_contents).to_not eq(new_contents)
     end
 
     # Next, let's figure out what these regex matches are expected to be, which will tell us what the method expects to be in the file
