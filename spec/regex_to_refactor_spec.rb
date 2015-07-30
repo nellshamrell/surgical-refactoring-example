@@ -46,24 +46,28 @@ describe RegexToRefactor do
   # We now have those specs for that behavior, so we remove these specs
 
   describe 'how the method changes files' do
+    let(:my_string) { ':ab =>' }
+    let(:altered_string) { 'ab:'}
+
     before do
       create_required_directories_and_files
 
       expect(File.exist?('directory/nested_dir/something.rb')).to eq(true)
 
       file = File.open('directory/nested_dir/something.rb', 'w')
-      file.write(':ab =>')
+      file.write(my_string)
       file.close
     end
 
     it 'changes the file' do
       orig_contents = File.read('directory/nested_dir/something.rb')
+      expect(orig_contents).to include(my_string)
 
       regex_to_refactor.scary_regex_command('directory')
 
       new_contents = File.read('directory/nested_dir/something.rb')
-
-      expect(orig_contents).to_not eq(new_contents)
+      expect(new_contents).to_not include(my_string)
+      expect(new_contents).to include(altered_string)
     end
 
     after do
