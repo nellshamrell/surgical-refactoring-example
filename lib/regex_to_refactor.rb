@@ -1,8 +1,4 @@
 class RegexToRefactor
-  def match_regex
-    ":([[:alpha:]]+)[[:space:]]=>"
-  end
-
   def scary_regex_command(directory)
     # Now we notice the g flag at the end of the substitution command
     # This normally means to replace all matches for the first match
@@ -12,7 +8,12 @@ class RegexToRefactor
 
   private
 
+  def match_regex
+    ":([[:alpha:]]+)[[:space:]]=>"
+  end
+
   def directory_path(directory)
     "#{directory}/**/*.rb"
   end
+
 end
