@@ -70,6 +70,22 @@ describe RegexToRefactor do
       expect(new_contents).to include(altered_string)
     end
 
+    it 'changes all matches within the file' do
+      file = File.open('directory/nested_dir/something.rb', 'w')
+      file.write("#{my_string} #{my_string}")
+      file.close
+
+      contents = File.read('directory/nested_dir/something.rb')
+      expect(contents).to include(':ab => :ab =>')
+
+      regex_to_refactor.scary_regex_command('directory')
+      new_contents = File.read('directory/nested_dir/something.rb')
+
+      expect(new_contents).to_not include(my_string)
+      expect(new_contents).to include('ab: ab:')
+    end
+
+
     after do
       clean_up_files('directory')
     end
