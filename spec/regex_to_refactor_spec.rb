@@ -40,7 +40,35 @@ describe RegexToRefactor do
     end
 
     after do
-      FileUtils.rm_rf('directory')
+      clean_up_files('directory')
+    end
+  end
+
+  describe 'how the method changes files' do
+    # At this point, we know it does SOMETHING to .rb files at directory/sub-directory. but we're still not sure exactly what
+    # We know that "sed" is a streaming editor - it makes changes to a file or files
+    # So, after this command is run, something about the content of those files should be changed.
+    # Let's first set an expectation that the file should be changed to help us figure out precisely WHAT in the file should change
+
+    before do
+      create_required_directories_and_files
+
+      expect(File.exist?('directory/nested_dir/something.rb')).to eq(true)
+    end
+
+    it 'changes the file' do
+      file = File.open('directory/nested_dir/something.rb')
+      file2 = file.clone
+
+      expect(File.read(file)).to eq(File.read(file2))
+
+      RegexToRefactor.scary_regex_command('directory')
+
+      expect(File.read(file)).to_not eq(File.read(file2))
+    end
+
+    after do
+      clean_up_files('directory')
     end
   end
 
@@ -54,5 +82,9 @@ describe RegexToRefactor do
     file.close
 
     FileUtils.mv('something.rb','directory/nested_dir', verbose: true)
+  end
+
+  def clean_up_files(directory)
+    FileUtils.rm_rf(directory)
   end
 end
