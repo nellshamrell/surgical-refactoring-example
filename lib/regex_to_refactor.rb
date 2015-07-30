@@ -2,7 +2,7 @@ class RegexToRefactor
   # Character by character, we copy the regex here to understand what it matches
   # Same as refactoring "normal code" - we do it piece by piece
   def first_regex_match(string)
-    /:/.match(string)
+    /:[[:alpha:]]/.match(string)
   end
 
   def scary_regex_command(directory)
