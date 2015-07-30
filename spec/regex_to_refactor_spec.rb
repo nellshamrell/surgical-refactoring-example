@@ -45,12 +45,22 @@ describe RegexToRefactor do
       # I promise we will come back to it!
 
       # First, let's make our directory
+      # The spec still fails, looks like the code is looking for multiple directories with files in them.
+      # Let's create another directory within the first one
+      # Still no such file or directory.  Looks like it is looking for .rb files within the directories.  Let's create a few of those
       require 'fileutils'
       unless File.directory?('directory')
-        FileUtils.mkdir_p('directory')
+        FileUtils.mkdir_p('directory/sub_directory')
       end
 
-      # This still fails, looks like the code is looking for multiple directories with files in them.
+      file = File.new('something.rb', 'w')
+      file.write('look there is something in the file')
+      file.close
+      puts file.inspect
+      expect(File).to exist('something.rb')
+
+      FileUtils.mv './something.rb','directory/sub_directory'
+      expect(File).to exist('directory/sub_directory/something.rb')
     end
 
     it 'returns successfully' do
