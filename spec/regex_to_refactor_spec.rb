@@ -47,7 +47,7 @@ describe RegexToRefactor do
 
   describe 'what the regex matches' do
     it 'matches a string' do
-      expect(regex_to_refactor.first_regex_match(':a')).to_not be_nil
+      expect(regex_to_refactor.first_regex_match(':ab')).to_not be_nil
     end
   end
 
