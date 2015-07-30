@@ -49,18 +49,18 @@ describe RegexToRefactor do
       # Let's create another directory within the first one
       # Still no such file or directory.  Looks like it is looking for .rb files within the directories.  Let's create a few of those
       require 'fileutils'
-      unless File.directory?('directory')
-        FileUtils.mkdir_p('directory/sub_directory')
-      end
+
+      FileUtils.mkdir_p('directory/nested_dir')
+
+      expect(File.directory?('directory/nested_dir')).to eq(true)
 
       file = File.new('something.rb', 'w')
       file.write('look there is something in the file')
       file.close
-      puts file.inspect
-      expect(File).to exist('something.rb')
+      expect(File).to exist('./something.rb')
 
-      FileUtils.mv './something.rb','directory/sub_directory'
-      expect(File).to exist('directory/sub_directory/something.rb')
+      FileUtils.mv('something.rb','directory/nested_dir', verbose: true)
+      expect(File).to exist('./directory/nested_dir/something.rb')
     end
 
     it 'returns successfully' do
