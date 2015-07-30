@@ -29,4 +29,16 @@ describe RegexToRefactor do
       RegexToRefactor.scary_regex_command('directory')
     end
   end
+
+  describe 'what the method does' do
+     # What does system return when the system call is successful?
+    # Looking that up, we find that
+    # It returns true if the command gives a zero exit status (means the command was successful)
+    # And it returns false if the command returns a different exit status and was therefore not successful
+    it 'returns successfully' do
+      expect(RegexToRefactor.scary_regex_command('directory')).to eq(true)
+    end
+
+    # This spec will fail the first time
+  end
 end
